@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Arine Challenge
 
-## Getting Started
+## 1: console.log() in javascript event loop
 
-First, run the development server:
+The event loop is a fundamental concept in JavaScript that explains how the language handles asynchronous operations. Understanding it involves knowing about:
+
+- Call Stack: Where synchronous code is executed.
+
+- Callback Queue: Where callbacks from asynchronous operations (like setTimeout) wait to be executed.
+
+- Microtask Queue: Used for promises and MutationObserver callbacks. Microtasks have higher priority than tasks in the Callback Queue.
+  You might be asked to explain the behavior of console.log() in an asynchronous scenario. For example, in code like this:
+
+```javascript
+console.log("Start");
+setTimeout(() => console.log("Timeout"), 0);
+Promise.resolve().then(() => console.log("Promise"));
+console.log("End");
+```
+
+### The expected output would be:
+
+```text
+Start
+End
+Promise
+Timeout
+```
+
+### Explanation:
+
+Synchronous code is executed first: Start, then End.
+The promise callback (Promise.resolve().then) is a microtask, so it runs before the setTimeout, which is a macro task.
+
+## 2: create a list button component in react that receives an array of strings and renders a button for each string
+
+- Check out the solution within this project (app/arine)
+
+- Run the App
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 3: import a file on react and filter the duplicated entries by its values, for instance "en" is duplicated here
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Check out the solution within this project (app/node)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Run the code with node (tsx)
 
-## Learn More
+```bash
+tsx app/node/index.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+```json
+{
+"supportedLanguages": {
+"English": "en",
+"Portuguese": "pt",
+"Spanish": "es",
+"english": "en"
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 4: why use keys in react, it it related to performance?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+In React, keys help identify which items have changed, been added, or been removed. Keys should be given to elements inside the array to give those elements a stable identity.
 
-## Deploy on Vercel
+- Why Use Keys?: React uses keys to optimize the process of reconciling (comparing the current virtual DOM with the previous one) by identifying which elements need updates. Without keys, React might unnecessarily re-render all components, which would hurt performance.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Related to Performance?: Yes, keys improve performance. They allow React to skip re-rendering components that have not changed. Without proper keys, React may have to re-render entire lists even if only one item changes.
